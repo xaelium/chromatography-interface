@@ -1,0 +1,11 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {simulate,sequenceProperties} from '../model.js';
+const p={mode:'iex',mw:48,pi:6.5,tag:true,exchanger:'anion',ph:7.5,strength:500,flow:1};
+test('SEC orders larger proteins first',()=>{const r=simulate({...p,mode:'sec'});assert.ok(r.peaks[2].center<r.peaks[0].center);assert.ok(r.peaks[0].center<r.peaks[1].center);assert.ok(r.points.every(x=>x.b===0));});
+test('IEX charge and resin determine binding',()=>{assert.equal(simulate(p).peaks[0].bound,true);assert.equal(simulate({...p,ph:5}).peaks[0].bound,false);assert.equal(simulate({...p,ph:5,exchanger:'cation'}).peaks[0].bound,true);});
+test('IMAC requires tag; stronger eluent moves elution earlier',()=>{assert.equal(simulate({...p,mode:'affinity',tag:false}).peaks[0].bound,false);const a=simulate({...p,mode:'affinity'});assert.ok(a.peaks[0].center>a.peaks[1].center);assert.ok(simulate({...p,mode:'affinity',strength:1000}).peaks[0].center<a.peaks[0].center);});
+test('fractions conserve loaded mass',()=>{const r=simulate(p);r.peaks.forEach((peak,j)=>assert.ok(Math.abs(r.fractions.reduce((s,f)=>s+f.amounts[j],0)-peak.amount)<.001));});
+test('flow scales time, not SEC retention volume',()=>{const a=simulate({...p,mode:'sec'}),b=simulate({...p,mode:'sec',flow:2});assert.equal(a.peaks[0].center,b.peaks[0].center);assert.equal(a.duration,2*b.duration);});
+test('sequence FASTA, mass, extinction, pI and rejection',()=>{const a=sequenceProperties('>test\nAW\n');assert.ok(Math.abs(a.mw-.2753073)<.000001);assert.equal(a.extinction,5500);assert.equal(a.length,2);assert.throws(()=>sequenceProperties('AX'));assert.ok(sequenceProperties('KKKK').pi>sequenceProperties('EEEE').pi);});
+test('insufficient salt leaves a strongly bound target on the column',()=>{const r=simulate({...p,ph:10,strength:200});assert.equal(r.peaks[0].center,Infinity);assert.equal(r.fractions.reduce((s,f)=>s+f.amounts[0],0),0);});
