@@ -13,7 +13,7 @@ npm run check
 npm test
 ```
 
-The server listens on port 5173. Serve the repository through HTTP (ES modules do not run from file URLs). Deploy the static `index.html`, `style.css`, `app.js`, and `model.js` together. No API keys, external fonts, tracking, database, or external service is required. Sequences remain in the browser.
+The server listens on port 5173. Serve the repository through HTTP (ES modules do not run from file URLs). Deploy the static `index.html`, `style.css`, `app.js`, `flow.js`, and `model.js` together. No API keys, external fonts, tracking, database, or external service is required. Sequences remain in the browser.
 
 ## Prototype capabilities
 
@@ -30,7 +30,7 @@ Controls update the full-run preview; Run animates that same deterministic model
 
 This is a qualitative teaching model, not experimental retention prediction. Gaussian peaks and binding thresholds are illustrative. UV has an equal mass response across proteins; the sequence-derived extinction coefficient is displayed but not applied to the UV model. Sequence pI uses independent residue pKa values and unmodified termini. IMAC accessibility is supplied by the user. There is no folding, surface-charge, capacity, conductivity, pressure, flow-path dead volume, or gradient-delay model. Gels show relative amounts of monomer species, not calibrated staining or activity. SEC mass calibration assumes globular monomers and cannot infer oligomerization or hydrodynamic radius from sequence alone.
 
-The reduced flow diagram shows A/B pumps → mixer → injection valve → column → UV → outlet valve → waste or collector. It is not an exact ÄKTA schematic or equipment operating procedure. pH affects IEX only in this prototype; flow changes time and illustrative peak broadening.
+The tubing diagram follows the user-supplied Cytiva reference: A1/A2 and B1/B2 inlet selection, separate A/B pumps, pressure monitor, mixer, a six-port injection valve with sample loop and manual-load/waste lines, column selection with inactive bypass, UV and conductivity cells, and an outlet valve to waste or a circular collector. Active tubing is green, inactive lines gray, and the sample loop blue. Per-pump flow and buffer B readouts track the method. The injection valve is fixed in inject position and the column is online; bypass and manual loading are schematic only. Pressure and conductivity are not calculated. This is an original illustrative drawing, not an exact ÄKTA schematic or equipment operating procedure. pH affects IEX only in this prototype; flow changes time and illustrative peak broadening.
 
 ## References and follow-up
 
@@ -40,6 +40,6 @@ Reviewed the Gelbox repository at commit `1f11ec9227df77d65db4e778add6e0d130a7dd
 - https://github.com/douglaslab/gelbox/
 - https://www.cytivalifesciences.com/
 
-The Gelbox website and Cytiva web pages returned access-denied responses in the development environment. Exact manufacturer representations and resin-specific parameters have therefore **not been verified**. Before using this as course material, validate the schematic and teaching constants against selected Cytiva system manuals and resin instructions with a chromatography specialist.
+The Gelbox website and Cytiva web pages returned access-denied responses in the development environment. The user subsequently supplied a Cytiva screenshot used as the visual reference for the tubing schematic. Exact model-specific connections and resin-specific parameters have **not been verified against manufacturer manuals**. Before using this as course material, validate the schematic and teaching constants against selected Cytiva system manuals and resin instructions with a chromatography specialist.
 
 Suggested extensions: adjustable sample mixtures and oligomerization; calibrated resin-specific SEC curves; column volumes and gradient delay; conductivity and pressure; HIC; accessible guided exercises; import experimentally determined or externally predicted structures. A 3D model alone cannot produce reliable IEX retention predictions.
